@@ -30,7 +30,7 @@ env_var = os.getenv('json_data')
 input_data = json.load(env_var)
 
 print(type(input_data))
-
+print(input_data)
 # Create workflow YAML
 workflow_yaml = f"""\
 apiVersion: argoproj.io/v1alpha1
