@@ -22,7 +22,7 @@ RUN pip install requests
 # Install any other necessary packages
 
 # Run the code
-#CMD [ "python", "dag-release.py" ]
+CMD [ "python", "dag-release.py" ]
 
 
-CMD  tail -f /dev/null
+
