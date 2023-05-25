@@ -9,15 +9,10 @@ COPY . /app
 
 
 # Set environment variables
-ENV host_url="http://20.106.135.93:30793"
-ENV argocd_token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkFQSS1UT0tFTjphZG1pbiIsImlzcyI6ImFwaVRva2VuSXNzdWVyIn0.N5wVfiLTTTX0uY9gRd11e33A5g8Bp-Ac3coe_sKdp7Q'
-
 # Install additional dependencies
-RUN apt-get update && apt-get install -y \
-    git 
+RUN apt-get update && apt-get install -y 
 
-# Install YAML package
-RUN pip install pyyaml
+
 
 # Install requests package
 RUN pip install requests
