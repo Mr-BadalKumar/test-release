@@ -1,8 +1,7 @@
 import json
 import requests
 import yaml
-import os
-from datetime import datetime
+
 def find_artifact_id(task_name):
     url = "https://raw.githubusercontent.com/Mr-BadalKumar/test/main/values.yaml"
     response = requests.get(url)
@@ -77,9 +76,8 @@ for node in input_data:
 
 workflow_yaml += templates_yaml
 
-workflow_yaml+=datetime.now()
+
 print(workflow_yaml)
 f = open("output.yaml", "w")
 f.write(workflow_yaml)
 f.close()
-print(datetime.now())
