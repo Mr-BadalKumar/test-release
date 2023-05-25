@@ -2,8 +2,6 @@ import json
 import requests
 import yaml
 import os
-import subprocess
-import datetime
 
 host_url="http://20.106.135.93:30793"
 argocd_token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkFQSS1UT0tFTjphZG1pbiIsImlzcyI6ImFwaVRva2VuSXNzdWVyIn0.N5wVfiLTTTX0uY9gRd11e33A5g8Bp-Ac3coe_sKdp7Q'
@@ -24,13 +22,10 @@ def find_artifact_id(task_name):
         print("can not get the artifact id exiting")
         exit
 
-# Read input data from a JSON file
-# with open('input.json') as f:
-env_var = os.getenv('json_data')
-input_data = json.load(env_var)
 
-print(type(input_data))
-print(input_data)
+with open('input.json') as f:
+    input_data = json.load(f)
+
 # Create workflow YAML
 workflow_yaml = f"""\
 apiVersion: argoproj.io/v1alpha1
@@ -75,6 +70,9 @@ for node in input_data:
     for key, value in env_field.items():
         template_yaml += f"          - name: {key}\n"
         template_yaml += f"""            value: "{value}"\n"""
+
+    print(task_name)
+    print(type(task_name))
     artifactId=find_artifact_id(task_name)
     template_yaml += f"          - name: {'CI_ARTIFACT_ID'}\n"
     template_yaml += f"""            value: "{artifactId}"\n"""
@@ -84,51 +82,7 @@ for node in input_data:
 workflow_yaml += templates_yaml
 
 
-
+print(workflow_yaml)
 f = open("output.yaml", "w")
 f.write(workflow_yaml)
 f.close()
-
-# Define repository information
-repo_owner = "Mr-BadalKumar"
-repo_name = "test-release"
-release_version = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
-
-
-# # Create a dictionary representing the YAML data
-# yaml_data = {
-#     "repository": {
-#         "owner": repo_owner,
-#         "name": repo_name
-#     },
-#     "release": {
-#         "version": release_version
-#     }
-# }
-
-# Define the filename for the YAML file
-yaml_filename = f"{release_version}-release.yaml"
-
-print(workflow_yaml)
-
-# Write the YAML data to the file
-with open(yaml_filename, "w") as yaml_file:
-    yaml.dump(workflow_yaml, yaml_file)
-
-subprocess.run(["git", "init"])
-# Add the YAML file to the Git repository
-subprocess.run(["git", "add", yaml_filename])
-
-# Commit the changes
-subprocess.run(["git", "commit", "-m", "Add release YAML file"])
-
-subprocess.run(["git", "remote", "add" ,"origin", "https://github.com/Mr-BadalKumar/test-release"])
-
-# Create a Git tag for the release version
-tag_name = f"release/{release_version}"
-subprocess.run(["git", "tag", tag_name])
-
-# Push the changes and tag to the remote repository
-subprocess.run(["git", "push"])
-subprocess.run(["git", "push", "--tags"])
