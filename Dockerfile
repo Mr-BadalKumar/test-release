@@ -5,13 +5,15 @@ FROM python:3.9
 WORKDIR /app
 
 # Copy the code files to the working directory
-COPY . .
+COPY dag-release.py  .
 
 
 # Set environment variables
 # Install additional dependencies
 RUN apt-get update && apt-get install -y 
 
+
+RUN pip install  pyyaml
 
 
 # Install requests package
@@ -20,5 +22,6 @@ RUN pip install requests
 # Install any other necessary packages
 
 # Run the code
-CMD python dag-release.py
+CMD [ "python", "dag-release.py" ]
+
 
