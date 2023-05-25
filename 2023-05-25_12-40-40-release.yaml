@@ -1,0 +1,37 @@
+"apiVersion: argoproj.io/v1alpha1\nkind: Workflow\nmetadata:\n  name: dag-test\n \
+  \ namespace: argo\nspec:\n  entrypoint: start\n  templates:\n    - name: start\n\
+  \      dag:\n        tasks:\n          - name: casbin\n            template: casbin\n\
+  \            dependencies: []\n          - name: lens\n            template: lens\n\
+  \            dependencies: []\n          - name: notifyer-deploy\n            template:\
+  \ notifyer-deploy\n            dependencies: []\n          - name: kubewatch\n \
+  \           template: kubewatch\n            dependencies: []\n          - name:\
+  \ casbin\n            template: casbin\n            dependencies: []\n         \
+  \ - name: app-sync-cronjob\n            template: app-sync-cronjob\n           \
+  \ dependencies: []\n          - name: image-scanner\n            template: image-scanner\n\
+  \            dependencies: []\n          - name: orchestrator\n            template:\
+  \ orchestrator\n            dependencies: ['casbin', 'kubelink', 'kubewatch', 'lens',\
+  \ 'image-scanner']\n          - name: dashboard\n            template: dashboard\n\
+  \            dependencies: ['orchestrator']\n    - name: casbin\n      container:\n\
+  \        image: badal773/release:02\n        env:\n          - name: APPID\n   \
+  \         value: \"1\"\n          - name: CI_ARTIFACT_ID\n            value: \"\
+  1\"\n    - name: lens\n      container:\n        image: badal773/release:02\n  \
+  \      env:\n          - name: APPID\n            value: \"1\"\n          - name:\
+  \ CI_ARTIFACT_ID\n            value: \"1234\"\n    - name: notifyer-deploy\n   \
+  \   container:\n        image: badal773/release:02\n        env:\n          - name:\
+  \ APPID\n            value: \"1\"\n          - name: CI_ARTIFACT_ID\n          \
+  \  value: \"1234\"\n    - name: kubewatch\n      container:\n        image: badal773/release:02\n\
+  \        env:\n          - name: APPID\n            value: \"1\"\n          - name:\
+  \ CI_ARTIFACT_ID\n            value: \"1234\"\n    - name: casbin\n      container:\n\
+  \        image: badal773/release:02\n        env:\n          - name: APPID\n   \
+  \         value: \"1\"\n          - name: CI_ARTIFACT_ID\n            value: \"\
+  1\"\n    - name: app-sync-cronjob\n      container:\n        image: badal773/release:02\n\
+  \        env:\n          - name: APPID\n            value: \"1\"\n          - name:\
+  \ CI_ARTIFACT_ID\n            value: \"1234\"\n    - name: image-scanner\n     \
+  \ container:\n        image: badal773/release:02\n        env:\n          - name:\
+  \ APPID\n            value: \"1\"\n          - name: CI_ARTIFACT_ID\n          \
+  \  value: \"1234\"\n    - name: orchestrator\n      container:\n        image: badal773/release:02\n\
+  \        env:\n          - name: APPID\n            value: \"1\"\n          - name:\
+  \ CI_ARTIFACT_ID\n            value: \"1234\"\n    - name: dashboard\n      container:\n\
+  \        image: badal773/release:02\n        env:\n          - name: APPID\n   \
+  \         value: \"1\"\n          - name: CI_ARTIFACT_ID\n            value: \"\
+  9\"\n"
