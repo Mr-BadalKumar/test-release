@@ -5,7 +5,7 @@ FROM python:3.9
 WORKDIR /app
 
 # Copy the code files to the working directory
-COPY . /app
+COPY . .
 
 
 # Set environment variables
